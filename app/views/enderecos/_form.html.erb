@@ -1,0 +1,92 @@
+<script src="http://maps.google.com/maps?file=api&v=2&sensor=true&key=ABQIAAAAltyCuPdwfaDfyFTyFXzBTBQDNUKtWYO0YNsBQklWEm0Tg_LWZBRwMzkA1muOwdfpCrwvduBG9dW2MA" type="text/javascript"></script>
+
+<%= form_for(@endereco) do |f| %>
+  <% if @endereco.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@endereco.errors.count, "error") %> prohibited this endereco from being saved:</h2>
+
+      <ul>
+      <% @endereco.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+	<div class="field">
+	    <%= f.label :cep %><br />
+	    <%= f.text_field :cep %>
+	  </div>
+  <div class="field">
+    <%= f.label :logradouro %><br />
+    <%= f.text_field :logradouro %>
+  </div>
+  <div class="field">
+    <%= f.label :numero %><br />
+    <%= f.text_field :numero %>
+  </div>
+  <div class="field">
+    <%= f.label :complemento %><br />
+    <%= f.text_field :complemento %>
+  </div>
+  <div class="field">
+    <%= f.label :bairro %><br />
+    <%= f.text_field :bairro %>
+  </div>
+  <div class="field">
+    <%= f.label :cidade %><br />
+    <%= f.text_field :cidade %>
+  </div>
+  <div class="field">
+    <%= f.label :estado %><br />
+    <%= f.text_field :estado %>
+  </div>
+  <div class="field">
+    <%= f.label :lat %><br />
+    <%= f.text_field :lat %>
+  </div>
+  <div class="field">
+    <%= f.label :long %><br />
+    <%= f.text_field :long %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+	<div align="center" id="map" style="width: 600px; height: 400px"><br/></div>
+<% end %>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#endereco_cep").change(function() {
+		    $.get('/home/busca_por_cep', {cep:$(this).val()}, function(data) {
+		    	$('#endereco_logradouro').val(data[0] + ' ' + data[1]);
+				$('#endereco_bairro').val(data[2]);
+				$('#endereco_estado').val(data[3]);
+				$('#endereco_cidade').val(data[4]);
+				
+				//Desenha Mapa
+				if (GBrowserIsCompatible()) {
+					var map = new GMap2(document.getElementById("map"));
+					map.addControl(new GSmallMapControl());
+					map.addControl(new GMapTypeControl());
+					geocoder = new GClientGeocoder();
+					if (geocoder) {
+						address = data[0] + ' ' + data[1] + ', ' + $('#endereco_numero').val() + ', '+ data[2] + ' ' + data[3] + ' ' + data[4];
+						alert(address);
+						geocoder.getLatLng(address, function(point){
+							if(!point){
+								alert('Endereço não encontrado.');
+							}else{
+								$('#endereco_lat').val(point.lat().toFixed(5));
+								$('#endereco_long').val(point.lng().toFixed(5));
+								map.setCenter(point, 14);
+								var marker = new GMarker(point, {draggable: true});
+								map.addOverlay(marker);
+							}
+
+						});
+					}
+				}
+		    });
+		});
+	});
+	
+</script>

@@ -1,0 +1,52 @@
+<p id="notice"><%= notice %></p>
+
+<%= draw_map_of Location.new(@endereco.to_s, @endereco.lat, @endereco.long) %>
+
+<p>
+  <b>Logradouro:</b>
+  <%= @endereco.logradouro %>
+</p>
+
+<p>
+  <b>Numero:</b>
+  <%= @endereco.numero %>
+</p>
+
+<p>
+  <b>Complemento:</b>
+  <%= @endereco.complemento %>
+</p>
+
+<p>
+  <b>Bairro:</b>
+  <%= @endereco.bairro %>
+</p>
+
+<p>
+  <b>Cidade:</b>
+  <%= @endereco.cidade %>
+</p>
+
+<p>
+  <b>Estado:</b>
+  <%= @endereco.estado %>
+</p>
+
+<p>
+  <b>Cep:</b>
+  <%= @endereco.cep %>
+</p>
+
+<p>
+  <b>Lat:</b>
+  <%= @endereco.lat %>
+</p>
+
+<p>
+  <b>Long:</b>
+  <%= @endereco.long %>
+</p>
+
+
+<%= link_to 'Edit', edit_endereco_path(@endereco) %> |
+<%= link_to 'Back', enderecos_path %>
