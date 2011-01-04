@@ -70,7 +70,6 @@
 					geocoder = new GClientGeocoder();
 					if (geocoder) {
 						address = data[0] + ' ' + data[1] + ', ' + $('#endereco_numero').val() + ', '+ data[2] + ' ' + data[3] + ' ' + data[4];
-						alert(address);
 						geocoder.getLatLng(address, function(point){
 							if(!point){
 								alert('Endereço não encontrado.');

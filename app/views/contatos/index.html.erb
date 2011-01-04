@@ -10,7 +10,7 @@
 
 <% @contatos.each do |contato| %>
   <tr>
-    <td><%= contato.string %></td>
+    <td><%= contato.contato %></td>
     <td><%= link_to 'Show', contato %></td>
     <td><%= link_to 'Edit', edit_contato_path(contato) %></td>
     <td><%= link_to 'Destroy', contato, :confirm => 'Are you sure?', :method => :delete %></td>
